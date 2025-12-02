@@ -190,21 +190,19 @@
   <div id="final-score"></div>
   <script>
     const questions = [
-      { type: "Thesis statement", text: "While social media facilitates academic collaboration among college students, excessive usage contributes to sleep deprivation and reduced productivity.", good: true },
-      { type: "Thesis statement", text: "College athletes should be compensated for their participation, as their efforts generate significant revenue and demand time beyond academics.", good: true },
-      { type: "Thesis statement", text: "In examining climate change, it becomes clear that both policy shifts and scientific innovations are critical for effective solutions.", good: true },
-      { type: "Thesis statement", text: "While standardized testing ensures fairness, critics argue it inadequately measures student creativity.", good: true },
-      { type: "Thesis statement", text: "Technology is rapidly evolving, impacting students everywhere.", good: false },
-      { type: "Thesis statement", text: "Group assignments encourage diverse perspectives and help students develop teamwork skills essential for future professionals.", good: true },
-      { type: "Thesis statement", text: "While many students report stress, schools should implement widespread counseling programs to assist all undergraduates.", good: false },
-      { type: "Thesis statement", text: "Government regulation of social media must balance the protection of free speech with the need to curb harmful misinformation and hate speech.", good: true },
-      { type: "Topic sentence", text: "Managing multiple deadlines is a fundamental struggle for university students, often leading to chronic stress and burnout.", good: true },
-      { type: "Topic sentence", text: "Exams are a necessary part of college life that prepare students for future challenges.", good: false },
-      { type: "Topic sentence", text: "Recent studies show that remote learning can both enhance flexibility for nontraditional students and create challenges for building academic community.", good: true },
-      { type: "Topic sentence", text: "Universities offer various resources to students, including clubs and study centers.", good: false },
-      { type: "Topic sentence", text: "Contrary to popular opinion, procrastination sometimes sparks creativity and unexpected solutions in academic projects.", good: true },
-      { type: "Topic sentence", text: "Universities should evaluate how online learning affects student motivation and engagement.", good: true },
-      { type: "Topic sentence", text: "Getting enough sleep is beneficial for students in all academic fields.", good: false }
+      // POOR THESIS STATEMENTS (false/not good)
+      { type: "Thesis statement", text: "I'm going to write about Darwin's concerns with evolution in The Origin of Species.", good: false },
+      { type: "Thesis statement", text: "This paper will address the characteristics of a good corporate manager.", good: false },
+      { type: "Thesis statement", text: "An important part of one's college education is learning to better understand others' points of view.", good: false },
+      { type: "Thesis statement", text: "From cartoons in the morning to adventure shows at night, there is too much violence on television.", good: false },
+      { type: "Thesis statement", text: "Violent revolutions have had both positive and negative results.", good: false },
+
+      // STRONG THESIS STATEMENTS (true/good)
+      { type: "Thesis statement", text: "The increment in the tax on cigarettes does not discourage the unfortunate person of America from buying a packet of cigarettes. Instead of it, the authorities need to educate about the ill effects of smoking.", good: true },
+      { type: "Thesis statement", text: "If there is no discrimination based on gender in an office, then the organization will lead to more cooperative, innovative ideas and build more healthy relationships between the workers.", good: true },
+      { type: "Thesis statement", text: "To empower women, one should need to educate them and support them to pursue their careers in politics so that several women can run for work.", good: true },
+      { type: "Thesis statement", text: "The disabled student debt is creating a problem in the growth of the U.S. economy since it prevents educated people from being able to pay out the money on buyer equipment and house assets.", good: true },
+      { type: "Thesis statement", text: "During the COVID outbreak masks should be worn because doing so slows the spread of the virus, reduces the time in lockdown, and encourages others to follow your example.", good: true }
     ];
 
     let indices = [...Array(questions.length).keys()];
