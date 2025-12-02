@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Is This Thesis/Topic Sentence Good Enough For You?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: radial-gradient(circle at 20% 90%, #d7e5ff 0%, #ffe6fa 60%, #f5d6ff 120%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #e052ad;
+      font-size: 2em;
+      margin: 32px 0 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 22px #fff3fe;
+      text-align: center;
+      max-width: 600px;
+    }
+    #game-container {
+      position: relative;
+      width: 410px;
+      max-width: 97vw;
+      height: 420px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      width: 375px;
+      max-width: 88vw;
+      min-height: 220px;
+      background: linear-gradient(135deg, #eaf6ff 50%, #faaaf7 100%);
+      border-radius: 18px;
+      box-shadow: 0 12px 45px rgba(80,34,255,0.12), 0 3px 13px rgba(210,33,122,0.11);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.22em;
+      margin-bottom: 21px;
+      position: relative;
+      transition: transform 0.38s cubic-bezier(.32,.72,.23,.81), opacity 0.36s;
+      z-index: 2;
+      padding: 32px 22px 36px 22px;
+      text-align: center;
+      box-sizing: border-box;
+      border: 2.5px solid #c695f3;
+      text-shadow: 0 1px 10px #ddc4ff2e;
+    }
+    .swipe-left {
+      transform: translateX(-500px) rotate(-18deg) scale(0.92);
+      opacity: 0;
+    }
+    .swipe-right {
+      transform: translateX(500px) rotate(18deg) scale(0.92);
+      opacity: 0;
+    }
+    .card-label {
+      font-weight: 700;
+      font-size: 1.04em;
+      color: #2460c3;
+      margin-bottom: 8px;
+      text-shadow: 0 1px 7px #fff;
+    }
+
+    .btns {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 38px;
+      z-index: 1;
+      width: 100%;
+      padding-top: 7px;
+      padding-bottom: 8px;
+    }
+    .tinder-btn {
+      border: none;
+      border-radius: 50px;
+      width: 68px;
+      height: 68px;
+      font-size: 2.55em;
+      color: #fff;
+      outline: none;
+      cursor: pointer;
+      transition: background 0.22s, transform 0.12s;
+      box-shadow: 0 3px 16px #d7e5ff77;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tinder-btn.left {
+      background: #e052ad;
+    }
+    .tinder-btn.right {
+      background: #2460c3;
+    }
+    .tinder-btn:active {
+      transform: scale(1.1);
+    }
+    #score, #final-score {
+      margin-top: 20px;
+      font-size: 1.12em;
+      color: #3c196c;
+      font-weight: 600;
+      text-align: center;
+    }
+    #feedback {
+      margin-top: 11px;
+      font-size: 1.07em;
+      min-height: 28px;
+      color: #5b356d;
+      transition: color 0.3s;
+      text-align: center;
+    }
+    #fx-container {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .fx-emoji {
+      position: absolute;
+      font-size: 2.5em;
+      animation: fx-fall 1.4s linear;
+      pointer-events: none;
+      will-change: transform, opacity;
+    }
+    @keyframes fx-fall {
+      0% { opacity: .97; transform: translateY(-30px) scale(1); }
+      70% { opacity: .89;}
+      85% { opacity: .5;}
+      100% { opacity: 0; transform: translateY(60px) scale(1.25);}
+    }
+    .books-bg {
+      position: fixed;
+      left: 0; top: 0;
+      width: 100vw; height: 100vh;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .book {
+      position: absolute;
+      width: 36px; height: 36px;
+      opacity: 0.24;
+      animation: floatbook 18s linear infinite;
+    }
+    @keyframes floatbook {
+      0% { transform: translateY(0) rotate(0deg);}
+      80% { opacity: .25; }
+      100% { transform: translateY(120vh) rotate(33deg); opacity: .11;}
+    }
+    @media (max-width: 426px) {
+      .card { font-size: 1em; width: 99vw; min-height: 130px;}
+      #game-container { width: 100vw;}
+      .tinder-btn { font-size: 2em; width: 56px; height: 56px;}
+      h1 { font-size: 1.17em;}
+    }
+  </style>
+</head>
+<body>
+  <div class="books-bg" id="books-bg"></div>
+  <div id="fx-container"></div>
+  <h1>Is This Thesis/Topic Sentence Good Enough For You?</h1>
+  <div id="game-container">
+    <div class="card" id="card">
+      <div class="card-label" id="label"></div>
+      <div id="statement"></div>
+      <div class="btns">
+        <button class="tinder-btn left" onclick="swipe('left')" title="Not Good">&#10060;</button>
+        <button class="tinder-btn right" onclick="swipe('right')" title="Good">&#128151;</button>
+      </div>
+    </div>
+    <div id="feedback"></div>
+  </div>
+  <div id="score"></div>
+  <div id="final-score"></div>
+  <script>
+    const questions = [
+      { type: "Thesis statement", text: "While social media facilitates academic collaboration among college students, excessive usage contributes to sleep deprivation and reduced productivity.", good: true },
+      { type: "Thesis statement", text: "College athletes should be compensated for their participation, as their efforts generate significant revenue and demand time beyond academics.", good: true },
+      { type: "Thesis statement", text: "In examining climate change, it becomes clear that both policy shifts and scientific innovations are critical for effective solutions.", good: true },
+      { type: "Thesis statement", text: "While standardized testing ensures fairness, critics argue it inadequately measures student creativity.", good: true },
+      { type: "Thesis statement", text: "Technology is rapidly evolving, impacting students everywhere.", good: false },
+      { type: "Thesis statement", text: "Group assignments encourage diverse perspectives and help students develop teamwork skills essential for future professionals.", good: true },
+      { type: "Thesis statement", text: "While many students report stress, schools should implement widespread counseling programs to assist all undergraduates.", good: false },
+      { type: "Thesis statement", text: "Government regulation of social media must balance the protection of free speech with the need to curb harmful misinformation and hate speech.", good: true },
+      { type: "Topic sentence", text: "Managing multiple deadlines is a fundamental struggle for university students, often leading to chronic stress and burnout.", good: true },
+      { type: "Topic sentence", text: "Exams are a necessary part of college life that prepare students for future challenges.", good: false },
+      { type: "Topic sentence", text: "Recent studies show that remote learning can both enhance flexibility for nontraditional students and create challenges for building academic community.", good: true },
+      { type: "Topic sentence", text: "Universities offer various resources to students, including clubs and study centers.", good: false },
+      { type: "Topic sentence", text: "Contrary to popular opinion, procrastination sometimes sparks creativity and unexpected solutions in academic projects.", good: true },
+      { type: "Topic sentence", text: "Universities should evaluate how online learning affects student motivation and engagement.", good: true },
+      { type: "Topic sentence", text: "Getting enough sleep is beneficial for students in all academic fields.", good: false }
+    ];
+
+    let indices = [...Array(questions.length).keys()];
+    indices = indices.sort(() => Math.random() - 0.5);
+
+    let current = 0;
+    let score = 0;
+
+    function showQuestion() {
+      if (current < questions.length) {
+        let q = questions[indices[current]];
+        document.getElementById('label').textContent = q.type;
+        document.getElementById('statement').textContent = q.text;
+        document.getElementById('feedback').textContent = '';
+        document.getElementById('card').className = 'card';
+        document.getElementById('score').textContent = `Card ${current + 1} of ${questions.length} | Score: ${score}`;
+        document.getElementById('final-score').textContent = '';
+      } else {
+        document.getElementById('card').style.display = 'none';
+        document.getElementById('score').textContent = '';
+        document.getElementById('feedback').textContent = '';
+        document.getElementById('final-score').innerHTML =
+          `Game Over! 🎉 <br>Your final score: <b>${score}</b> out of ${questions.length}`;
+      }
+    }
+
+    function swipe(direction) {
+      if (current >= questions.length) return;
+      let q = questions[indices[current]];
+      let feedback = '';
+      let correct = (direction === 'right' && q.good) || (direction === 'left' && !q.good);
+      if (direction === 'right') document.getElementById('card').classList.add('swipe-right');
+      else document.getElementById('card').classList.add('swipe-left');
+
+      if (correct) {
+        feedback = '✅ Correct!';
+        makeEmojiFx('heart');
+        score++;
+      } else {
+        feedback = '❌ Not quite!';
+        makeEmojiFx('sad');
+      }
+      document.getElementById('feedback').textContent = feedback;
+      setTimeout(() => {
+        current++;
+        document.getElementById('card').className = 'card';
+        showQuestion();
+      }, 950);
+    }
+
+    showQuestion();
+
+    function makeBooks(num) {
+      const colors = ['#4f8fff','#e052ad','#2460c3','#faaaf7','#fde4f7','#d7e5ff','#c695f3'];
+      const booksBg = document.getElementById('books-bg');
+      for (let i=0; i<num; i++) {
+        let book = document.createElement('div');
+        book.className = 'book';
+        book.style.top = Math.random()*95 + "vh";
+        book.style.left = Math.random()*97 + "vw";
+        book.style.animationDelay = Math.random()*16 + "s";
+        book.innerHTML = `
+          <svg viewBox="0 0 36 36" fill="none" width="36" height="36">
+            <rect x="2" y="7" width="32" height="22" rx="5.5" fill="${colors[i%colors.length]}" stroke="#fff" stroke-width="2"/>
+            <rect x="6" y="9.5" width="2.5" height="15" rx="1.2" fill="#fff" />
+            <rect x="12" y="9.5" width="18" height="15" rx="2.8" fill="#fff1" />
+            <rect x="8" y="10" width="10" height="10" rx="2" fill="#fff7" />
+          </svg>
+        `;
+        booksBg.appendChild(book);
+      }
+    }
+    makeBooks(32);
+
+    function makeEmojiFx(type) {
+      const fxContainer = document.getElementById('fx-container');
+      const emojis = type === 'heart'
+        ? ['😍','😍','😍','😍','❤️','😻','😍','❤️']
+        : ['😢','😞','😢','😞','😕','😢','😔','😢'];
+      for (let i = 0; i < 8; i++) {
+        let emoji = document.createElement('span');
+        emoji.className = 'fx-emoji';
+        emoji.style.left = (20 + Math.random() * 60) + 'vw';
+        emoji.style.top = (38 + Math.random() * 22) + 'vh';
+        emoji.style.fontSize = (2 + Math.random()*.8) + 'em';
+        emoji.textContent = emojis[i];
+        fxContainer.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 1200);
+      }
+    }
+  </script>
+</body>
+</html>
